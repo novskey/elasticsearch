@@ -1949,7 +1949,8 @@ public class RestHighLevelClient implements Closeable {
      */
     static List<NamedXContentRegistry.Entry> getProvidedNamedXContents() {
         List<NamedXContentRegistry.Entry> entries = new ArrayList<>();
-        for (NamedXContentProvider service : ServiceLoader.load(NamedXContentProvider.class)) {
+        Class<NamedXContentProvider> namedXContentProviderClass = NamedXContentProvider.class;
+        for (NamedXContentProvider service : ServiceLoader.load(namedXContentProviderClass, namedXContentProviderClass.getClassLoader())) {
             entries.addAll(service.getNamedXContentParsers());
         }
         return entries;
